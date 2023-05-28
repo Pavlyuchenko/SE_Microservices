@@ -16,16 +16,18 @@ Implemented in Java using Spring Boot.
 
 #### Endpoints
 
-GET /
-GET /get-inventory
-GET /get-book/{id}
-GET /return-books?bookIds={bookIds}&quantities={quantities}
-GET /check-order-availability?bookIds={bookIds}&quantities={quantities}
-
-PUT /increase-book-quantity/{id}/{quantity}
-PUT /decrease-book-quantity/{id}/{quantity}
-
-POST /create-book/{id}/{quantity}
+GET / <br />
+GET /get-inventory <br />
+GET /get-book/{id} <br />
+GET /return-books?bookIds={bookIds}&quantities={quantities} <br />
+GET /check-order-availability?bookIds={bookIds}&quantities={quantities} <br />
+<br />
+<br />
+PUT /increase-book-quantity/{id}/{quantity} <br />
+PUT /decrease-book-quantity/{id}/{quantity} <br />
+<br />
+<br />
+POST /create-book/{id}/{quantity} <br />
 
 ### 4. Book Orders (port 3003)
 
@@ -33,13 +35,15 @@ Implemented in Java using Spring Boot.
 
 #### Endpoints
 
-GET /
-GET /orders
-GET /order/{id}
-
-POST /order?bookIds={bookIds}?quantities={quantities}
-
-DELETE /order/{id}
+GET / <br />
+GET /orders <br />
+GET /order/{id} <br />
+<br />
+<br />
+POST /order?bookIds={bookIds}?quantities={quantities} <br />
+<br />
+<br />
+DELETE /order/{id} <br />
 
 ## Example of usage
 
