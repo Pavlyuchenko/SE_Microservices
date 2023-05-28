@@ -4,19 +4,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
 import com.se.inventory.controllers.InventoryPostController;
-import com.se.inventory.controllers.InventoryPutController;
+import com.se.inventory.controllers.InventoryManager;
 import com.se.inventory.helpers.Helpers;
 import com.se.inventory.models.InventorySingleton;
 
 @SpringBootTest
-class InventoryPutControllerDecreaseBookTests {
+class InventoryManagerTests {
 
 	@Test
 	void contextLoads() {
@@ -26,7 +25,7 @@ class InventoryPutControllerDecreaseBookTests {
 	void testDecreaseBookQuantityNonExistent() {
 		Helpers.resetInventory();
 
-		InventoryPutController controller = new InventoryPutController();
+		InventoryManager controller = new InventoryManager();
 
 		/* Try to decrease book that doesn't exist */
 		String status = controller.decreaseBookQuantity(1, 1);
@@ -41,7 +40,7 @@ class InventoryPutControllerDecreaseBookTests {
 		InventoryPostController postController = new InventoryPostController();
 		postController.createBook(1, 0);
 
-		InventoryPutController controller = new InventoryPutController();
+		InventoryManager controller = new InventoryManager();
 
 		/* Try to decrease book more than is in stock */
 		controller.increaseBookQuantity(1, 10);
@@ -56,7 +55,7 @@ class InventoryPutControllerDecreaseBookTests {
 		InventoryPostController postController = new InventoryPostController();
 		postController.createBook(1, 0);
 
-		InventoryPutController controller = new InventoryPutController();
+		InventoryManager controller = new InventoryManager();
 
 		/* Try to decrease book more than is in stock */
 		controller.increaseBookQuantity(1, 10);
@@ -70,7 +69,7 @@ class InventoryPutControllerDecreaseBookTests {
 	void testCheckOrderAvailabilityNonExistent() {
 		Helpers.resetInventory();
 
-		InventoryPutController controller = new InventoryPutController();
+		InventoryManager controller = new InventoryManager();
 
 		/* Try to decrease book that doesn't exist */
 		String status = controller.checkOrderAvailability(new ArrayList<Integer>(Arrays.asList(1)),
@@ -86,7 +85,7 @@ class InventoryPutControllerDecreaseBookTests {
 		InventoryPostController postController = new InventoryPostController();
 		postController.createBook(1, 1);
 
-		InventoryPutController controller = new InventoryPutController();
+		InventoryManager controller = new InventoryManager();
 
 		/* Try to decrease book that doesn't exist */
 		String status = controller.checkOrderAvailability(new ArrayList<Integer>(Arrays.asList(1)),
@@ -103,7 +102,7 @@ class InventoryPutControllerDecreaseBookTests {
 		postController.createBook(1, 1);
 		postController.createBook(2, 1);
 
-		InventoryPutController controller = new InventoryPutController();
+		InventoryManager controller = new InventoryManager();
 
 		/* Try to decrease book that doesn't exist */
 		String status = controller.checkOrderAvailability(new ArrayList<Integer>(Arrays.asList(1, 2)),
@@ -122,7 +121,7 @@ class InventoryPutControllerDecreaseBookTests {
 		postController.createBook(3, 2);
 		postController.createBook(201, 5);
 
-		InventoryPutController controller = new InventoryPutController();
+		InventoryManager controller = new InventoryManager();
 
 		/* Try to decrease book that doesn't exist */
 		String status = controller.checkOrderAvailability(new ArrayList<Integer>(Arrays.asList(1, 2, 201)),

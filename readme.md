@@ -22,10 +22,8 @@ GET /get-book/{id} <br />
 GET /return-books?bookIds={bookIds}&quantities={quantities} <br />
 GET /check-order-availability?bookIds={bookIds}&quantities={quantities} <br />
 <br />
-<br />
 PUT /increase-book-quantity/{id}/{quantity} <br />
 PUT /decrease-book-quantity/{id}/{quantity} <br />
-<br />
 <br />
 POST /create-book/{id}/{quantity} <br />
 
@@ -39,9 +37,7 @@ GET / <br />
 GET /orders <br />
 GET /order/{id} <br />
 <br />
-<br />
 POST /order?bookIds={bookIds}?quantities={quantities} <br />
-<br />
 <br />
 DELETE /order/{id} <br />
 

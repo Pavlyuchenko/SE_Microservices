@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 
 import com.se.inventory.controllers.InventoryPostController;
-import com.se.inventory.controllers.InventoryPutController;
+import com.se.inventory.controllers.InventoryManager;
 import com.se.inventory.helpers.Helpers;
 import com.se.inventory.models.InventorySingleton;
 
@@ -22,7 +22,7 @@ class InventoryPostControllerIncreaseBookTests {
     void testIncreaseBookQuantityNotFound() {
         Helpers.resetInventory();
 
-        InventoryPutController controller = new InventoryPutController();
+        InventoryManager controller = new InventoryManager();
 
         String status = controller.increaseBookQuantity(1, 1);
 
@@ -40,7 +40,7 @@ class InventoryPostControllerIncreaseBookTests {
         InventoryPostController postController = new InventoryPostController();
         postController.createBook(1, 0);
 
-        InventoryPutController controller = new InventoryPutController();
+        InventoryManager controller = new InventoryManager();
 
         String status = controller.increaseBookQuantity(1, 10);
 

@@ -19,8 +19,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Tag(name = "Inventory Post Controller", description = "Handles all POST requests for the inventory")
-public class InventoryPutController {
+@Tag(name = "Inventory Manager", description = "Handles book additions and deletions")
+public class InventoryManager {
         @PutMapping(value = "/increase-book-quantity/{id}/{quantity}", produces = "application/json")
         @Operation(summary = "Increases the quantity of the book in stock by the given quantity.")
         @Parameter(name = "id", description = "The id of the book to update")
@@ -77,6 +77,17 @@ public class InventoryPutController {
         }
 
         @GetMapping(value = "/check-order-availability", produces = "application/json")
+        @Operation(summary = "Checks if the books in the order are available in the inventory.")
+        @Parameter(name = "bookIds", description = "The ids of the books to check as a comma separated list")
+        @Parameter(name = "quantities", description = "The quantities of the books to check as a comma separated list")
+        @ApiResponse(responseCode = "200", description = "The books are available", content = {
+                        @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json") })
+        @ApiResponse(responseCode = "400", description = "The bookIds and quantities are not the same size", content = {
+                        @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json") })
+        @ApiResponse(responseCode = "404", description = "One of the books doesn't exist", content = {
+                        @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json") })
+        @ApiResponse(responseCode = "406", description = "One of the books doesn't have enough quantity", content = {
+                        @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json") })
         public String checkOrderAvailability(@RequestParam(required = true, name = "bookIds") List<Integer> bookIds,
                         @RequestParam(required = true, name = "quantities") List<Integer> quantities) {
                 /* bookIds and quantities must be the same size */
@@ -110,6 +121,15 @@ public class InventoryPutController {
         }
 
         @GetMapping(value = "/return-books", produces = "application/json")
+        @Operation(summary = "Returns the books from the order to the inventory.")
+        @Parameter(name = "bookIds", description = "The ids of the books to return as a comma separated list")
+        @Parameter(name = "quantities", description = "The quantities of the books to return as a comma separated list")
+        @ApiResponse(responseCode = "200", description = "The books were successfully returned", content = {
+                        @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json") })
+        @ApiResponse(responseCode = "400", description = "The bookIds and quantities are not the same size", content = {
+                        @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json") })
+        @ApiResponse(responseCode = "404", description = "One of the books doesn't exist", content = {
+                        @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json") })
         public String returnBooks(@RequestParam(required = true, name = "bookIds") List<Integer> bookIds,
                         @RequestParam(required = true, name = "quantities") List<Integer> quantities) {
                 /* bookIds and quantities must be the same size */
