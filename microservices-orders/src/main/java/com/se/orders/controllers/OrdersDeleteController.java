@@ -13,9 +13,19 @@ import com.se.orders.helpers.Helpers;
 import com.se.orders.models.ActiveOrdersSingleton;
 import com.se.orders.models.Order;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
+@Tag(name = "Orders Delete Controller", description = "Handles deleting orders.")
 public class OrdersDeleteController {
     @DeleteMapping("/order/{id}")
+    @Operation(summary = "Deletes an order with the given ID.")
+    @Parameter(name = "id", description = "The ID of the order to delete", required = true)
+    @ApiResponse(responseCode = "200", description = "Successful operation")
+    @ApiResponse(responseCode = "404", description = "Order with the given ID not found")
     public @ResponseBody String deleteOrder(@PathVariable("id") int id) {
         /* remove order with id from ActiveOrdersSingleton.getInstance().getOrders() */
         Order removedOrder = null;
