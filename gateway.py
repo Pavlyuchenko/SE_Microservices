@@ -22,11 +22,12 @@ BOOK_INVENTORY_SERVICE = "http://localhost:3002"
 BOOK_ORDER_SERVICE = "http://localhost:3003"
 
 
-def proxy_request(service_url, path):
+def proxy_request(service_url):
     resp = requests.request(
         method=request.method,
-        url=f"{service_url}/{path}",
-        headers={key: value for (key, value) in request.headers if key != "Host"},
+        url=f"{service_url}{request.path}",
+        headers={key: value for (key, value)
+                 in request.headers if key != "Host"},
         data=request.get_data(),
         cookies=request.cookies,
         allow_redirects=False,
@@ -49,18 +50,18 @@ def proxy_request(service_url, path):
 
 
 @app.route("/catalog/<path:path>", methods=["GET", "POST", "PUT", "DELETE"])
-def catalog_service(path):
-    return proxy_request(BOOK_CATALOG_SERVICE, path)
+def catalog_service():
+    return proxy_request(BOOK_CATALOG_SERVICE)
 
 
 @app.route("/inventory/<path:path>", methods=["GET", "POST", "PUT", "DELETE"])
-def inventory_service(path):
-    return proxy_request(BOOK_INVENTORY_SERVICE, path)
+def inventory_service():
+    return proxy_request(BOOK_INVENTORY_SERVICE)
 
 
 @app.route("/orders/<path:path>", methods=["GET", "POST", "PUT", "DELETE"])
-def orders_service(path):
-    return proxy_request(BOOK_ORDER_SERVICE, path)
+def orders_service():
+    return proxy_request(BOOK_ORDER_SERVICE)
 
 
 if __name__ == "__main__":

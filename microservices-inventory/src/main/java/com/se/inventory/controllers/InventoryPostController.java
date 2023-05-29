@@ -2,6 +2,7 @@ package com.se.inventory.controllers;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.se.inventory.models.InventorySingleton;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
+@RequestMapping("/inventory")
 @Tag(name = "Inventory Post Controller", description = "Handles all POST requests for the inventory")
 public class InventoryPostController {
         @PostMapping(value = "/create-book/{id}/{quantity}", produces = "application/json")
