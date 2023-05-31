@@ -42,6 +42,14 @@ def get_book(id):
     return "Book is not in catalog"
 
 
+@app.route("/books", methods=["GET"])
+def get_books():
+    books_jSon = []
+    for i in range(len(books)):
+        books_jSon.append(books[i].toJson())
+    return books_jSon
+
+
 @app.route("/books/<id>", methods=["PUT"])
 def update_book(id):
     params = request.args
