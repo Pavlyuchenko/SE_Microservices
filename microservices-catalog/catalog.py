@@ -45,13 +45,10 @@ def update_book(id):
         if books[i].id == int(id):
             params = request.args
             if "title" in params:
-                print("title")
                 books[i].title = params.get("title")
             if "author" in params:
-                print("author")
                 books[i].author = params.get("author")
             if "pub_year" in params:
-                print("pub_year")
                 books[i].pub_year = params.get("pub_year")
             return books[i].toJson()
     return "Book is not in catalog"
