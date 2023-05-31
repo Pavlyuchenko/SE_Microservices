@@ -23,6 +23,7 @@ books = []
 
 @app.route("/books", methods=["POST"])
 def add_book():
+    print(request.args)
     new_book = Book(request.args["id"], request.args["title"],
                     request.args['author'], request.args['pub_year'])
     books.append(new_book)
