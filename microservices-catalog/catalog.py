@@ -47,8 +47,21 @@ def add_book():
         type: integer
         required: true
     definitions:
-        Palette:
+        Book:
             type: object
+            properties:
+                id:
+                    type: integer
+                    description: The book's ID
+                title:
+                    type: string
+                    description: The book's title
+                author:
+                    type: string
+                    description: The book's author
+                pub_year:
+                    type: integer
+                    description: The book's publication year
     responses:
       200:
         description: The created book is returned
@@ -69,6 +82,18 @@ def add_book():
 
 @app.route("/books/<id>", methods=["GET"])
 def get_book(id):
+    """GET endpoint for retrieving a book from the catalog
+    Retrieve a book from the catalog
+    ---
+    parameters:
+      - name: id
+        in: path
+        type: integer
+        required: true
+    responses:
+      200:
+        description: Returns the book with the given ID
+    """
     for i in range(len(books)):
         if books[i].id == int(id):
             return books[i].toJson()
