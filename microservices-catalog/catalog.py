@@ -77,6 +77,16 @@ def get_book(id):
 
 @app.route("/books", methods=["GET"])
 def get_books():
+    """GET endpoint for getting all the books in the catalog
+    Get all the books from the catalog
+    ---
+    definitions:
+        Palette:
+            type: object
+    responses:
+      200:
+        description: The list of books is returned
+    """
     books_jSon = []
     for i in range(len(books)):
         books_jSon.append(books[i].toJson())
@@ -85,8 +95,34 @@ def get_books():
 
 @app.route("/books/<id>", methods=["PUT"])
 def update_book(id):
+    """PUT endpoint for updating the attributes of a book
+    Update attributes of a book in the catalog
+    ---
+    parameters:
+      - name: id
+        in: path
+        type: integer
+        required: true
+      - name: title
+        in: query
+        type: string
+        required: false
+      - name: author
+        in: query
+        type: string
+        required: false
+      - name: pub_year
+        in: query
+        type: integer
+        required: false
+    definitions:
+        Palette:
+            type: object
+    responses:
+      200:
+        description: The list of books is returned
+    """
     params = request.args
-
     for i in range(len(books)):
         if books[i].id == int(id):
             params = request.args
@@ -102,6 +138,21 @@ def update_book(id):
 
 @app.route("/books/<id>", methods=["DELETE"])
 def delete_book(id):
+    """DELETE endpoint for delting a book from the catalog
+    Delete a book from the catalog
+    ---
+    parameters:
+      - name: id
+        in: path
+        type: integer
+        required: true
+    definitions:
+        Palette:
+            type: object
+    responses:
+      200:
+        description: The list of books is returned
+    """
     for i in range(len(books)):
         if books[i].id == int(id):
             books.remove(books[i])
