@@ -26,33 +26,32 @@ book_ids = []
 
 @app.route("/books", methods=["POST"])
 def add_book():
-    """Example endpoint returning a list of colors by palette
-    This is using docstrings for specifications.
+    """POST endpoint for adding a new book to the catalog
+    Add a new book to the catalog
     ---
     parameters:
-      - name: palette
-        in: path
-        type: string
-        enum: ['all', 'rgb', 'cmyk']
+      - name: id
+        in: query
+        type: integer
         required: true
-        default: all
-    definitions:
-      Palette:
-        type: object
-        properties:
-          palette_name:
-            type: array
-            items:
-              $ref: '#/definitions/Color'
-      Color:
+      - name: title
+        in: query
         type: string
+        required: true
+      - name: author
+        in: query
+        type: string
+        required: true
+      - name: pub_year
+        in: query
+        type: integer
+        required: true
+    definitions:
+        Palette:
+            type: object
     responses:
       200:
-        description: A list of colors (may be filtered by palette)
-        schema:
-          $ref: '#/definitions/Palette'
-        examples:
-          rgb: ['red', 'green', 'blue']
+        description: The created book is returned
     """
     new_book = Book(
         request.args["id"],
