@@ -69,8 +69,15 @@ class CatalogTest(unittest.TestCase):
     def test_update_book(self):
         books.clear()
         with app.test_client() as client:
-            client.post("/books", query_string=self.example_book_data3)
-            print(books[0])
+            book = Book(1, "Harry Potter", "JK Rowling", "1997")
+            books.append(book)
+            client.put("/books/1", query_string=self.example_book_data2)
+            self.assertFalse(books[0].id == self.example_book_data2["id"])
+            self.assertEqual(books[0].title, self.example_book_data2["title"])
+            self.assertEqual(
+                books[0].author, self.example_book_data2["author"])
+            self.assertEqual(books[0].pub_year,
+                             self.example_book_data2["pub_year"])
 
     def test_delete_book(self):
         books.clear()
