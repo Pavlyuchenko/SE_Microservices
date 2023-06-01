@@ -1,35 +1,9 @@
 from flask import Flask, request
 import json
-from flasgger import Swagger, LazyString, LazyJSONEncoder
-from flasgger import swag_from
-
-swagger_template = dict(
-    info={
-        "title": LazyString(lambda: "My first Swagger UI document"),
-        "version": LazyString(lambda: "0.1"),
-        "description": LazyString(
-            lambda: "This document depicts a      sample Swagger UI document and implements Hello World functionality after executing GET."
-        ),
-    },
-    host=LazyString(lambda: request.host),
-)
-swagger_config = {
-    "headers": [],
-    "specs": [
-        {
-            "endpoint": "hello_world",
-            "route": "/hello_world.json",
-            "rule_filter": lambda rule: True,
-            "model_filter": lambda tag: True,
-        }
-    ],
-    "static_url_path": "/flasgger_static",
-    "swagger_ui": True,
-    "specs_route": "/apidocs/",
-}
+from flasgger import Swagger
 
 app = Flask(__name__)
-swagger = Swagger(app, template=swagger_template, config=swagger_config)
+swagger = Swagger(app)
 
 
 class Book:
@@ -52,6 +26,34 @@ book_ids = []
 
 @app.route("/books", methods=["POST"])
 def add_book():
+    """Example endpoint returning a list of colors by palette
+    This is using docstrings for specifications.
+    ---
+    parameters:
+      - name: palette
+        in: path
+        type: string
+        enum: ['all', 'rgb', 'cmyk']
+        required: true
+        default: all
+    definitions:
+      Palette:
+        type: object
+        properties:
+          palette_name:
+            type: array
+            items:
+              $ref: '#/definitions/Color'
+      Color:
+        type: string
+    responses:
+      200:
+        description: A list of colors (may be filtered by palette)
+        schema:
+          $ref: '#/definitions/Palette'
+        examples:
+          rgb: ['red', 'green', 'blue']
+    """
     new_book = Book(
         request.args["id"],
         request.args["title"],
