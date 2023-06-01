@@ -19,6 +19,7 @@ class Book:
 
 
 books = []
+book_ids = []
 
 
 @app.route("/books", methods=["POST"])
@@ -29,7 +30,10 @@ def add_book():
         request.args["author"],
         request.args["pub_year"],
     )
+    if book_ids.__contains__(new_book.id):
+        return "ID has already been used"
     books.append(new_book)
+    book_ids.append(new_book.id)
     print(len(books))
     return new_book.toJson()
 
