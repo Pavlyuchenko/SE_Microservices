@@ -1,30 +1,24 @@
-from flask import Flask, request
-import json
+from flask import Flask, request, Blueprint
 from flasgger import Swagger
+import requests
+from models import Book
 
+catalog_bp = Blueprint("catalog", __name__)
 app = Flask(__name__)
 swagger = Swagger(app)
 
-
-class Book:
-    def __init__(self, id, title, author, pub_year):
-        self.id = int(id)
-        self.title = title
-        self.author = author
-        self.pub_year = pub_year
-
-    def __str__(self) -> str:
-        return self.title
-
-    def toJson(self):
-        return json.dumps(self, default=lambda o: o.__dict__)
-
+INVENTORY_URL = "http://localhost:3000/inventory"
 
 books = []
 book_ids = []
 
 
-@app.route("/books", methods=["POST"])
+@catalog_bp.route("/", methods=["GET"])
+def home():
+    return "Go to <a href='/apidocs'>/apidocs</a> to see the API documentation"
+
+
+@catalog_bp.route("/books", methods=["POST"])
 def add_book():
     """POST endpoint for adding a new book to the catalog
     Add a new book to the catalog
@@ -66,6 +60,7 @@ def add_book():
       200:
         description: The created book is returned
     """
+    # print the path parameters
     new_book = Book(
         request.args["id"],
         request.args["title"],
@@ -76,11 +71,14 @@ def add_book():
         return "ID has already been used"
     books.append(new_book)
     book_ids.append(new_book.id)
-    print(len(books))
+
+    res = requests.post(INVENTORY_URL + "/create-book/" + str(new_book.id) + "/0")
+    print(res.text)
+
     return new_book.toJson()
 
 
-@app.route("/books/<id>", methods=["GET"])
+@catalog_bp.route("/books/<id>", methods=["GET"])
 def get_book(id):
     """GET endpoint for retrieving a book from the catalog
     Retrieve a book from the catalog
@@ -100,14 +98,11 @@ def get_book(id):
     return "Book is not in catalog"
 
 
-@app.route("/books", methods=["GET"])
+@catalog_bp.route("/books", methods=["GET"])
 def get_books():
     """GET endpoint for getting all the books in the catalog
     Get all the books from the catalog
     ---
-    definitions:
-        Palette:
-            type: object
     responses:
       200:
         description: The list of books is returned
@@ -118,7 +113,7 @@ def get_books():
     return books_jSon
 
 
-@app.route("/books/<id>", methods=["PUT"])
+@catalog_bp.route("/books/<id>", methods=["PUT"])
 def update_book(id):
     """PUT endpoint for updating the attributes of a book
     Update attributes of a book in the catalog
@@ -140,9 +135,6 @@ def update_book(id):
         in: query
         type: integer
         required: false
-    definitions:
-        Palette:
-            type: object
     responses:
       200:
         description: The list of books is returned
@@ -161,7 +153,7 @@ def update_book(id):
     return "Book is not in catalog"
 
 
-@app.route("/books/<id>", methods=["DELETE"])
+@catalog_bp.route("/books/<id>", methods=["DELETE"])
 def delete_book(id):
     """DELETE endpoint for delting a book from the catalog
     Delete a book from the catalog
@@ -171,9 +163,6 @@ def delete_book(id):
         in: path
         type: integer
         required: true
-    definitions:
-        Palette:
-            type: object
     responses:
       200:
         description: The list of books is returned
@@ -185,5 +174,7 @@ def delete_book(id):
     return "Book is not in catalog"
 
 
+app.register_blueprint(catalog_bp, url_prefix="/catalog")
+
 if __name__ == "__main__":
-    app.run()
+    app.run(host="127.0.0.1", port=3001)

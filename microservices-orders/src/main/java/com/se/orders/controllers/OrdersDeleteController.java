@@ -49,7 +49,7 @@ public class OrdersDeleteController {
 
         String params = "?bookIds=" + bookIdsString + "&quantities="
                 + quantitiesString;
-        final String url = "http://localhost:3002/return-books" + params;
+        final String url = "http://localhost:3000/inventory/return-books" + params;
 
         return Helpers.callUrl(url);
     }

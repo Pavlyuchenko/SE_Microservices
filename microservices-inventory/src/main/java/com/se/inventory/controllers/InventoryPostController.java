@@ -26,6 +26,7 @@ public class InventoryPostController {
         @ApiResponse(responseCode = "409", description = "The book with given id already exists", content = {
                         @io.swagger.v3.oas.annotations.media.Content(mediaType = "application/json") })
         public String createBook(@PathVariable("id") Integer id, @PathVariable("quantity") Integer quantity) {
+                System.out.println("Creating book with id: " + id + " and quantity: " + quantity);
                 return InventorySingleton.getInstance().createBook(id, quantity);
         }
 }

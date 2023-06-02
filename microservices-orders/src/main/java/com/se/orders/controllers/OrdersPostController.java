@@ -45,7 +45,7 @@ public class OrdersPostController {
 
         /* Call the Inventory Microservice */
         String params = "?bookIds=" + bookIdsString + "&quantities=" + quantitiesString;
-        final String url = "http://localhost:3002/check-order-availability" + params;
+        final String url = "http://localhost:3000/inventory/check-order-availability" + params;
         String result = Helpers.callUrl(url);
 
         /* If the Inventory Microservice returns OK, create the order */
